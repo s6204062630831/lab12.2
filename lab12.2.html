@@ -1,0 +1,30 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script>
+       
+        async function getDataFromAPI() {
+            let response = await fetch('http://localhost/lab12.2/json2.php')
+            let rawData = await response.text() // อ่านผลลัพธ์
+            let objectData = JSON.parse(rawData) // แปลผลลัพธ์เป็น object
+            let result = document.getElementById('result') // ดึง <ul> เพื่อใช้ในการเพิ่มแท็ก <li>
+
+            for (let i = 0; i < objectData.features.length; i++) {
+                if(objectData.features[i].properties.num_bed<100){
+                    let content = 'ชื่อโรงพยาบาล :' + objectData.features[i].properties.name // ดึงข้อมูลจาก object
+                    content += "(" + objectData.features[i].properties.num_bed + ' เตียง' +")"
+                    let li = document.createElement('li') // สร้างแท็ก <li>
+                    li.innerHTML = content // นำข้อมูลที่จัดแล้วมาไว้ในแท็ก <li>
+                    result.appendChild(li) // เพิ่มแท็ก <li> ใหม่
+                }
+               
+            }
+        }
+    getDataFromAPI() // เรียกฟังก์ชัน
+    </script>
+</head>
+<body>
+    <h1>โรงพยาบาลเอกชนในกทม.</h1>
+    <ol id="result"></ol>
+</body>
+</html>
